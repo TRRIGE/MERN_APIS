@@ -1,28 +1,39 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Header from "../components/Header";
 import FooterSec from "../components/FooterSec";
+import { getUser, deleteUser } from "../api/user.api";
 
 export const Users = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/users")
+    getUser()
       .then((response) => {
-        setUsers(response.data);
+        setUsers(response);
       })
       .catch((error) => {
         console.log(error.message);
       });
   }, []);
 
+  const handleEdit = (id) => {};
+
+  const handleDelete = (id) => {
+    deleteUser(id)
+      .then((response) => {
+        setUsers(users.filter((user) => user._id !== id));
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <>
       <Header />
       <div className="container" style={{ marginTop: "20px" }}>
         <div className="row justify-content-center">
-          <div className="col-md-10">
+          <div className="col">
             <table
               style={{
                 width: "100%",
@@ -45,6 +56,9 @@ export const Users = () => {
                     Address
                   </th>
                   <th style={{ padding: "10px", textAlign: "left" }}>City</th>
+                  <th style={{ padding: "10px", textAlign: "left" }}>
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -58,6 +72,37 @@ export const Users = () => {
                     <td style={{ padding: "10px" }}>{user.number}</td>
                     <td style={{ padding: "10px" }}>{user.address}</td>
                     <td style={{ padding: "10px" }}>{user.city}</td>
+                    <td style={{ padding: "10px" }}>
+                      <button
+                        onClick={() => handleEdit(user._id)}
+                        style={{
+                          padding: "5px 10px 5px 10px",
+                          backgroundColor: "#007bff",
+                          marginBottom: "5px",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "5px",
+                          cursor: "pointer",
+                          display: "inline-block",
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(user._id)}
+                        style={{
+                          padding: "5px 10px 5px 10px",
+                          backgroundColor: "#dc3545",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "5px",
+                          cursor: "pointer",
+                          display: "inline-block",
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
