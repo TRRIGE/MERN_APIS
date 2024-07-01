@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 // import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { registerUser } from "../api/user.api";
 
 const InputForm = () => {
   // const navigate = useNavigate();
@@ -51,6 +51,7 @@ const InputForm = () => {
 
   */
 
+  /*
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(values);
@@ -95,6 +96,34 @@ const InputForm = () => {
       console.error(error.message);
     }
   };
+  */
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, number, address, city } = values;
+
+    registerUser({ name, email, number, address, city })
+      .then((data) => {
+        if (!data) {
+          toast("Invalid Registration");
+          console.log("Invalid Registration");
+        } else {
+          toast("Your Form is Submitted Successfully");
+          console.log("Valid Registration");
+          setValues({
+            name: "",
+            email: "",
+            number: "",
+            address: "",
+            city: "",
+          });
+        }
+      })
+      .catch((error) => {
+        toast.error("Error registering user: " + error.message);
+        console.log("Error registering user:", error.message);
+      });
+  };
 
   const onChangeHandler = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -115,6 +144,7 @@ const InputForm = () => {
                 name="name"
                 value={values.name}
                 placeholder="Full Name"
+                required
               />
               <label className="form-label" htmlFor="formName">
                 Full Name
@@ -130,6 +160,7 @@ const InputForm = () => {
                 name="email"
                 value={values.email}
                 placeholder="Email"
+                required
               />
               <label className="form-label" htmlFor="formEmail">
                 Email
@@ -145,6 +176,7 @@ const InputForm = () => {
                 name="number"
                 value={values.number}
                 placeholder="Phone Number"
+                required
               />
               <label className="form-label" htmlFor="formNumber">
                 Phone Number
@@ -160,6 +192,7 @@ const InputForm = () => {
                 name="address"
                 value={values.address}
                 placeholder="Address"
+                required
               />
               <label className="form-label" htmlFor="formAddress">
                 Address
@@ -175,6 +208,7 @@ const InputForm = () => {
                 name="city"
                 value={values.city}
                 placeholder="State & City"
+                required
               />
               <label className="form-label" htmlFor="formCity">
                 State & City

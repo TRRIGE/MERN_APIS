@@ -9,7 +9,7 @@ userRouter.route("/")
 
 userRouter.route("/:id")
     .get(getUserById)
-    .patch(updateUser)
+    .put(updateUser)
     .delete(deleteUser)
 
 export default userRouter;

@@ -2,10 +2,10 @@ import React from "react";
 
 const Header = () => {
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand-lg bg-secondary sticky-top">
       <div className="container">
         <a className="navbar-brand" href="#">
-          User_Form
+          UserForm
         </a>
         <button
           className="navbar-toggler"
